@@ -169,8 +169,10 @@ class FishTank:
             return True
     
     def water_change_check(self):
-        if self.water_change > 7:
+        if self.water_change > 7 and self.water_change < 14:
             return 20
+        elif self.water_change >= 14:
+            return 50
         elif self.ammonia > 0 & self.ammonia < 2:
             return 20
         elif self.ammonia >= 40:
@@ -183,6 +185,12 @@ class FishTank:
             return 20
         elif self.nitrate >= 50:
             return 50
+    
+    def cycle_check(self):
+        if self.ammonia == 0 and self.nitrite == 0 and self.nitrate > 0:
+            return True
+        else:
+            return False
 
     def tank_eval_check(self):
         self.ans = input("Do you want to evaluate the parameters of your tank?(Y for yes, N for no)\n")
@@ -197,25 +205,50 @@ class FishTank:
         if self.over_stocked() is True:
             print("""Your tank is overstocked, you should have one inch of fish / creature per gallon of water
             This tank will require more frequent water changes
-            Becareful of frequent / large water changes if there are shrimp in the tank, it could stress them out
+            Be careful of frequent / large water changes if there are shrimp in the tank, it could stress them out
+            You can add some additional plants to consume the extra nitrates from the extra fish
             """)
         else:
             pass
         
         if self.planted() is True:
-            print("""The plants in your tank might require fertilizer and special lighting conditions
-            """)
+            print("""The plants in your tank might require fertilizer and special lighting conditions\n""")
         else:
             pass
 
         if self.ph_check() is True:
-            print("The pH is within a normal range, but you should always make sure it is within the reccomended parameters for every creature in your tank")
+            print("The pH is within a normal range, but you should always make sure it is within the reccomended parameters for every creature in your tank\n")
         elif self.ph_check() is False:
             print("The pH is not within the normal range")
+            if self.ph < 5.5:
+                print("""\tYour pH is very low
+                \tIf you have snails in the tank, this could cause their shells to deteriorate 
+                \tThis can also cause skin issues for your fish, especially if they are scaleless
+                \tYou can increase the pH by adding crushed coral""")
+            elif self.ph > 8.5:
+                print("""\tYour pH is very high
+                \tThis might be from a heavily planted tank depleting the CO2 in the water
+                \tYou can change the substrate to a nutrient-rich, buffered one
+                \tUsing reverse-osmosis water, instead of tap water might help
+                \tAdding peat moss or indian almond leaves will lower the pH""")
         
-        print("A" + str(self.water_change_check()) + "% water change is reccomended.")
+        print("\nA " + str(self.water_change_check()) + "% water change is reccomended.\n")
 
-
+        if self.cycle_check() is True:
+            print("Your tank appears to be cycled!\n")
+        elif self.cycle_check() is False:
+            print("""Your tank is not proprtly cycled
+            \tThe nitrogen cycle should be established before fish/shrimp/snails live in your tank
+            \tIf you already have inhabitants in this tank:
+            \t\tYou can do a fish in cycle (not reomomended)
+            \t\tOr you can put them in another (cycled) tank for the next month or so
+            \tTo cycle the tank, you need an ammonia source (fish food/poop)
+            \tBacteria will eat the ammonia turning it into nitrite
+            \tThen another colony of bacteria will grow to eat the nitrite, turning it into nitrate
+            \tYou can add a bacterial starter to speed up this process
+            \tNitrates above 20ppm are deadly to the inhabitants of your tank
+            \tWater changes must be done to remove the nitrates (plants can consume some too)
+            \tYou will know the tank is cycled (and safe to add creatures) when there are some nitrates, and no ammonia or nitrites\n""")
 
         print("\n******************************************************************************\n\n")
 
