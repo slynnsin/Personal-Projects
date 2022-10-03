@@ -19,7 +19,7 @@ class FishTank:
             kh: the kh reading of the water
             nitrite: the amount of nitrites in the water (ppm)
             nitrate: the amount of nitrates in the water (ppm)
-            ammonia: the amount of ammonia in the wate (ppm)
+            ammonia: the amount of ammonia in the water (ppm)
             water_change: how many days ago the last water change was
         """
         # private variables
